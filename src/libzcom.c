@@ -174,7 +174,7 @@ __attribute__((weak)) void ltbus_send(uint8_t* packet, uint8_t packet_size) {
 
 LTBUS_RC ltbus_handle_read_request(const uint8_t* request_packet, uint8_t packet_size) {
     DeviceRegisterConfig dr_conf;
-    uint8_t ddr_rc = decode_device_register_config(request_packet, packet_size, &dr_conf);
+    uint8_t ddr_rc = ltbus_decode_device_register_config(request_packet, &dr_conf);
     if (ddr_rc != LTBUS_RC_OK)
         return ddr_rc;
 
@@ -201,7 +201,7 @@ LTBUS_RC ltbus_handle_read_request(const uint8_t* request_packet, uint8_t packet
 
 LTBUS_RC ltbus_handle_write_request(const uint8_t* request_packet, uint8_t packet_size) {
     DeviceRegisterConfig dr_conf;
-    uint8_t ddr_rc = decode_device_register_config(request_packet, packet_size, &dr_conf);
+    uint8_t ddr_rc = ltbus_decode_device_register_config(request_packet, &dr_conf);
     if (ddr_rc != LTBUS_RC_OK)
         return ddr_rc;
 

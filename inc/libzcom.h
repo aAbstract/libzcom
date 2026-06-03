@@ -71,6 +71,7 @@ uint16_t set_bit(uint16_t x, uint8_t pos);
 uint16_t clear_bit(uint16_t x, uint8_t pos);
 uint16_t toggle_bit(uint16_t x, uint8_t pos);
 uint16_t check_bit(uint16_t x, uint8_t pos);
+void set_vm_buffer(uint8_t* _vm_buffer);
 
 // ModBus
 uint16_t modbus_rtu_crc(const uint8_t* data, int len);
@@ -84,7 +85,7 @@ LTBUS_RC ltbus_write_f32_request(uint16_t address, float value, uint8_t* out_pac
 LTBUS_RC ltbus_write_u16_request(uint16_t address, uint16_t value, uint8_t* out_packet);
 LTBUS_RC ltbus_write_i16_request(uint16_t address, int16_t value, uint8_t* out_packet);
 
-LTBUS_RC handle_lt_bus_request(const uint8_t* request_packet, uint8_t packet_size);
+LTBUS_RC ltbus_handle_request(const uint8_t* request_packet, uint8_t packet_size);
 uint16_t ltbus_crc(const uint8_t* data, int len);
 
 #endif

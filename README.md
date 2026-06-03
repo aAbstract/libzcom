@@ -4,6 +4,6 @@
 libzcomm
 
 Author: Eslam Elsharkawy
-Version: 0.0.5
+Version: 0.0.6
 Date: 2026-06-03
 ```

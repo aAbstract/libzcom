@@ -42,6 +42,11 @@ def init_utils_ffi(libzcom: ctypes.CDLL):
     ]
     libzcom.check_bit.restype = ctypes.c_uint16
 
+    libzcom.set_vm_buffer.argtypes = [
+        ctypes.POINTER(ctypes.c_uint8),
+    ]
+    libzcom.set_vm_buffer.restype = None
+
 
 def init_modbus_ffi(libzcom: ctypes.CDLL):
     # uint16_t modbus_rtu_crc(const uint8_t* data, int len);
@@ -75,6 +80,30 @@ def init_ltbus_ffi(libzcom: ctypes.CDLL):
         ctypes.POINTER(ctypes.c_uint8),     # uint8_t* out_packet
     ]
     libzcom.ltbus_read_request.restype = ctypes.c_uint8
+
+    # LTBUS_RC ltbus_write_f32_request(uint16_t address, float value, uint8_t* out_packet);
+    libzcom.ltbus_write_f32_request.argtypes = [
+        ctypes.c_uint16,                    # uint16_t address
+        ctypes.c_float,                     # float value
+        ctypes.POINTER(ctypes.c_uint8),     # uint8_t* out_packet
+    ]
+    libzcom.ltbus_write_f32_request.restype = ctypes.c_uint8
+
+    # LTBUS_RC ltbus_write_u16_request(uint16_t address, uint16_t value, uint8_t* out_packet);
+    libzcom.ltbus_write_u16_request.argtypes = [
+        ctypes.c_uint16,                    # uint16_t address
+        ctypes.c_uint16,                    # uint16 value
+        ctypes.POINTER(ctypes.c_uint8),     # uint8_t* out_packet
+    ]
+    libzcom.ltbus_write_u16_request.restype = ctypes.c_uint8
+
+    # LTBUS_RC ltbus_write_i16_request(uint16_t address, int16_t value, uint8_t* out_packet);
+    libzcom.ltbus_write_i16_request.argtypes = [
+        ctypes.c_uint16,                    # uint16_t address
+        ctypes.c_int16,                     # int16_t value
+        ctypes.POINTER(ctypes.c_uint8),     # uint8_t* out_packet
+    ]
+    libzcom.ltbus_write_i16_request.restype = ctypes.c_uint8
 
     # uint16_t ltbus_crc(const uint8_t* data, int len);
     libzcom.ltbus_crc.argtypes = [
