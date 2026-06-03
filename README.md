@@ -1,7 +1,7 @@
-# libzcomm
+# libzcom
 
 ```
-libzcomm
+libzcom
 
 Author: Eslam Elsharkawy
 Version: 0.0.6
