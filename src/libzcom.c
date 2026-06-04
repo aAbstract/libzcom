@@ -1,4 +1,4 @@
-#include "inc/libzcom.h"
+#include "libzcom.h"
 
 // Utils
 uint16_t set_bit(uint16_t x, uint8_t pos) {

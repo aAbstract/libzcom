@@ -17,7 +17,7 @@
  * Validation result: Not run
  */
 
-#include "inc/Tustin_Filter.h"
+#include "Tustin_Filter.h"
 
 /* Block parameters (default storage) */
 P_Tustin_Filter_T Tustin_Filter_P = {

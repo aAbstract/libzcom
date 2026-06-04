@@ -17,8 +17,8 @@
  * Validation result: Not run
  */
 
-#include "inc/Tustin_Filter.h"
-#include "inc/rtwtypes.h"
+#include "Tustin_Filter.h"
+#include "rtwtypes.h"
 
 /* Block states (default storage) */
 DW_Tustin_Filter_T Tustin_Filter_DW;
