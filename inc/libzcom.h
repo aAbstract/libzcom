@@ -23,6 +23,8 @@
 #define LTBUS_RC_ERR_UNK_DEVICE_BUFFER 5
 #define LTBUS_RC_ERR_OUT_OF_BOUND_READ 6
 
+#define MMAP_MAX 1024
+
 // clang-format off
 static const uint16_t CRC16_POLYNOMIAL[] = {
   0x0000, 0x1189, 0x2312, 0x329B, 0x4624, 0x57AD, 0x6536, 0x74BF,
@@ -81,11 +83,13 @@ LTBUS_RC ltbus_init_device(uint8_t _slave_id, uint8_t* _config_buffer, uint8_t* 
 LTBUS_RC ltbus_decode_device_register_config(const uint8_t* request_packet, DeviceRegisterConfig* out_conf);
 
 LTBUS_RC ltbus_read_request(uint16_t address, uint16_t size, uint8_t* out_packet);
+
 LTBUS_RC ltbus_write_f32_request(uint16_t address, float value, uint8_t* out_packet);
 LTBUS_RC ltbus_write_u16_request(uint16_t address, uint16_t value, uint8_t* out_packet);
 LTBUS_RC ltbus_write_i16_request(uint16_t address, int16_t value, uint8_t* out_packet);
 
 LTBUS_RC ltbus_handle_request(const uint8_t* request_packet, uint8_t packet_size);
+LTBUS_RC ltbus_send_mmap(uint16_t mmap_size);
 uint16_t ltbus_crc(const uint8_t* data, int len);
 
 #endif

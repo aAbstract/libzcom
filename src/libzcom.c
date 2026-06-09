@@ -235,3 +235,27 @@ LTBUS_RC ltbus_handle_request(const uint8_t* request_packet, uint8_t packet_size
 
     return LTBUS_RC_ERR_UNK_FC;
 }
+
+LTBUS_RC ltbus_send_mmap(uint16_t mmap_size) {
+    uint8_t out_packet[MMAP_MAX];
+
+    out_packet[0] = 0x7B;
+    out_packet[1] = slave_id;
+    out_packet[2] = LTBUS_READ_RESP_FC;
+
+    out_packet[3] = 0x00;
+    out_packet[4] = 0xD0;
+
+    out_packet[5] = mmap_size & 0xFF;
+    out_packet[6] = (mmap_size >> 8) & 0xFF;
+
+    memcpy(out_packet + LTBUS_PACKET_HEADER_SIZE, data_buffer, mmap_size);
+
+    uint16_t crc16 = ltbus_crc(out_packet, LTBUS_PACKET_HEADER_SIZE + mmap_size);
+    out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size] = (uint8_t)(crc16 & 0xFF);
+    out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size + 1] = (uint8_t)(crc16 & 0xFF);
+    out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size + 2] = 0x7D;
+
+    ltbus_send(out_packet, LTBUS_PACKET_HEADER_SIZE + LTBUS_PACKET_FOOTER_SIZE + mmap_size);
+    return LTBUS_RC_OK;
+}

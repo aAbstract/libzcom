@@ -106,3 +106,51 @@ def test_ltbus_handle_request():
 
     assert ltbus_vm_buffer[13] == 0x7D
     assert ltbus_vm_buffer[:11] == [0x7B, 0x01, 0xAB, 0x00, 0xD0, 0x04, 0x00, 0xA4, 0x70, 0x45, 0x41]
+
+
+def test_ltbus_send_mmap():
+    libzcom = pyt_lib.load_libzcom_ffi()
+
+    # init ltbus buffers
+    ltbus_config_buffer = (ctypes.c_uint8 * 0xFFF)()
+    ltbus_data_buffer = (ctypes.c_uint8 * 0xFFF)()
+    libzcom.ltbus_init_device(0x01, ltbus_config_buffer, ltbus_data_buffer)
+
+    ltbr_wreq_1 = (ctypes.c_uint8 * 14)()
+    ltbr_wreq_2 = (ctypes.c_uint8 * 14)()
+    ltbr_wreq_3 = (ctypes.c_uint8 * 12)()
+    libzcom.ltbus_write_f32_request(0xD000, 12.34, ltbr_wreq_1)
+    libzcom.ltbus_write_f32_request(0xD004, 34.56, ltbr_wreq_2)
+    libzcom.ltbus_write_u16_request(0xD008, 0b1010_0000_1010_1111, ltbr_wreq_3)
+    libzcom.ltbus_handle_request(ltbr_wreq_1, 14)
+    libzcom.ltbus_handle_request(ltbr_wreq_2, 14)
+    libzcom.ltbus_handle_request(ltbr_wreq_3, 12)
+
+    echo_value_1: float = struct.unpack('<f', bytes(ltbus_data_buffer[:4]))[0]
+    echo_value_2: float = struct.unpack('<f', bytes(ltbus_data_buffer[4:8]))[0]
+    echo_value_3_bytes: bytes = bytes(ltbus_data_buffer[8:12])
+    assert round(echo_value_1, 2) == 12.34
+    assert round(echo_value_2, 2) == 34.56
+    assert echo_value_3_bytes == bytes([0xAF, 0xA0, 0x00, 0x00])
+
+    ltbus_vm_buffer = (ctypes.c_uint8 * 0xFFF)()
+    libzcom.set_vm_buffer(ltbus_vm_buffer)
+
+    data_size = 0x008 + 2
+    libzcom.ltbus_send_mmap(data_size)
+
+    assert ltbus_vm_buffer[0] == 0x7B
+    assert ltbus_vm_buffer[1] == 0x01
+    assert ltbus_vm_buffer[2] == 0xAB
+    assert ltbus_vm_buffer[3] == 0x00
+    assert ltbus_vm_buffer[4] == 0xD0
+
+    assert ltbus_vm_buffer[5] == data_size
+    assert ltbus_vm_buffer[6] == 0
+
+    echo_value_1: float = struct.unpack('<f', bytes(ltbus_vm_buffer[7:11]))[0]
+    echo_value_2: float = struct.unpack('<f', bytes(ltbus_vm_buffer[11:15]))[0]
+    echo_value_3_bytes: bytes = bytes(ltbus_vm_buffer[15:17])
+    assert round(echo_value_1, 2) == 12.34
+    assert round(echo_value_2, 2) == 34.56
+    assert echo_value_3_bytes == bytes([0xAF, 0xA0])
