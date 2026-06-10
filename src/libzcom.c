@@ -105,8 +105,8 @@ LTBUS_RC ltbus_write_f32_request(uint16_t address, float value, uint8_t* out_pac
     out_packet[10] = (uint8_t)((value_u32 >> 24) & 0xFF);
 
     uint16_t crc16 = ltbus_crc(out_packet, 11);
-    out_packet[11] = (uint8_t)(crc16 & 0xFF);
-    out_packet[12] = (uint8_t)((crc16 >> 8) & 0xFF);
+    out_packet[11] = crc16 & 0xFF;
+    out_packet[12] = (crc16 >> 8) & 0xFF;
     out_packet[13] = 0x7D;
 
     return LTBUS_RC_OK;
@@ -127,8 +127,8 @@ LTBUS_RC ltbus_write_u16_request(uint16_t address, uint16_t value, uint8_t* out_
     out_packet[8] = (uint8_t)((value >> 8) & 0xFF);
 
     uint16_t crc16 = ltbus_crc(out_packet, 9);
-    out_packet[9] = (uint8_t)(crc16 & 0xFF);
-    out_packet[10] = (uint8_t)((crc16 >> 8) & 0xFF);
+    out_packet[9] = crc16 & 0xFF;
+    out_packet[10] = (crc16 >> 8) & 0xFF;
     out_packet[11] = 0x7D;
 
     return LTBUS_RC_OK;
@@ -149,8 +149,8 @@ LTBUS_RC ltbus_write_i16_request(uint16_t address, int16_t value, uint8_t* out_p
     out_packet[8] = (uint8_t)((value >> 8) & 0xFF);
 
     uint16_t crc16 = ltbus_crc(out_packet, 9);
-    out_packet[9] = (uint8_t)(crc16 & 0xFF);
-    out_packet[10] = (uint8_t)((crc16 >> 8) & 0xFF);
+    out_packet[9] = crc16 & 0xFF;
+    out_packet[10] = (crc16 >> 8) & 0xFF;
     out_packet[11] = 0x7D;
 
     return LTBUS_RC_OK;
@@ -191,9 +191,8 @@ LTBUS_RC ltbus_handle_read_request(const uint8_t* request_packet, uint8_t packet
         read_resp_packet[LTBUS_PACKET_HEADER_SIZE + i] = dr_conf.register_ptr[i];
 
     uint16_t crc16 = ltbus_crc(read_resp_packet, LTBUS_PACKET_HEADER_SIZE + dr_conf.register_size);
-    uint8_t* crc16_ptr = (uint8_t*)&crc16;
-    read_resp_packet[LTBUS_PACKET_HEADER_SIZE + dr_conf.register_size] = crc16_ptr[0];
-    read_resp_packet[LTBUS_PACKET_HEADER_SIZE + dr_conf.register_size + 1] = crc16_ptr[1];
+    read_resp_packet[LTBUS_PACKET_HEADER_SIZE + dr_conf.register_size] = crc16 & 0xFF;
+    read_resp_packet[LTBUS_PACKET_HEADER_SIZE + dr_conf.register_size + 1] = (crc16 >> 8) & 0xFF;
     read_resp_packet[LTBUS_PACKET_HEADER_SIZE + dr_conf.register_size + 2] = '}';
     ltbus_send(read_resp_packet, LTBUS_PACKET_HEADER_SIZE + LTBUS_PACKET_FOOTER_SIZE + dr_conf.register_size);
     return LTBUS_RC_OK;
@@ -252,8 +251,8 @@ LTBUS_RC ltbus_send_mmap(uint16_t mmap_size) {
     memcpy(out_packet + LTBUS_PACKET_HEADER_SIZE, data_buffer, mmap_size);
 
     uint16_t crc16 = ltbus_crc(out_packet, LTBUS_PACKET_HEADER_SIZE + mmap_size);
-    out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size] = (uint8_t)(crc16 & 0xFF);
-    out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size + 1] = (uint8_t)(crc16 & 0xFF);
+    out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size] = crc16 & 0xFF;
+    out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size + 1] = (crc16 >> 8) & 0xFF;
     out_packet[LTBUS_PACKET_HEADER_SIZE + mmap_size + 2] = 0x7D;
 
     ltbus_send(out_packet, LTBUS_PACKET_HEADER_SIZE + LTBUS_PACKET_FOOTER_SIZE + mmap_size);
