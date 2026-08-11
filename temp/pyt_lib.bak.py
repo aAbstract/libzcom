@@ -2,6 +2,17 @@ import os
 import ctypes
 
 
+def test_tustin_filter():
+    libzcom = _libs['libzcom.so']  # type: ignore
+    _P_Tustin_Filter_T_ = pyt_lib.P_Tustin_Filter_T_.in_dll(libzcom, 'Tustin_Filter_P')  # type: ignore
+
+    num_coef = list(_P_Tustin_Filter_T_.DiscreteTransferFcn_NumCoef)
+    assert num_coef == [0.01547, 0.01547]
+
+    den_coef = list(_P_Tustin_Filter_T_.DiscreteTransferFcn_DenCoef)
+    assert den_coef == [1, -0.9691]
+
+
 class DeviceRegisterConfig(ctypes.Structure):
     _fields_ = [
         ('register_address', ctypes.c_uint16),
@@ -48,13 +59,26 @@ def init_utils_ffi(libzcom: ctypes.CDLL):
     libzcom.set_vm_buffer.restype = None
 
 
-def init_modbus_ffi(libzcom: ctypes.CDLL):
-    # uint16_t modbus_rtu_crc(const uint8_t* data, int len);
-    libzcom.modbus_rtu_crc.argtypes = [
+def init_mdbus_ffi(libzcom: ctypes.CDLL):
+    # MDBUS_RC mdbus_set_slave_id(uint8_t _slave_id);
+    libzcom.mdbus_set_slave_id.argtypes = [
+        ctypes.c_uint8,                  # uint8_t _slave_id
+    ]
+    libzcom.mdbus_set_slave_id.restype = ctypes.c_uint8
+
+    # MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);
+    libzcom.mdbus_handle_request.argtypes = [
+        ctypes.POINTER(ctypes.c_uint8),  # const uint8_t* request_packet
+        ctypes.c_uint16,                 # uint16_t packet_size
+    ]
+    libzcom.mdbus_handle_request.restype = ctypes.c_uint8
+
+    # uint16_t mdbus_rtu_crc(const uint8_t* data, int len);
+    libzcom.mdbus_rtu_crc.argtypes = [
         ctypes.POINTER(ctypes.c_uint8),  # const uint8_t* data
         ctypes.c_int,                    # int len
     ]
-    libzcom.modbus_rtu_crc.restype = ctypes.c_uint16
+    libzcom.mdbus_rtu_crc.restype = ctypes.c_uint16
 
 
 def init_ltbus_ffi(libzcom: ctypes.CDLL):
@@ -115,6 +139,6 @@ def init_ltbus_ffi(libzcom: ctypes.CDLL):
 
 def load_libzcom_ffi() -> ctypes.CDLL:
     libzcom = ctypes.CDLL(os.path.join(os.getcwd(), 'libzcom.so'))
-    init_modbus_ffi(libzcom)
+    init_mdbus_ffi(libzcom)
     init_ltbus_ffi(libzcom)
     return libzcom
