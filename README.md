@@ -53,40 +53,40 @@ MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_siz
 ## Testing - Coverage
 
 #### ModBus Virtual Memory System
-- `mdbus_set_slave_id` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_set_page` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_get_page` - **<span style="color:#64DD17">OK</span>**
+- `mdbus_set_slave_id` - ✅
+- `mdbus_set_page` - ✅
+- `mdbus_get_page` - ✅
 
 #### ModBus Source Operations
-- `mdbus_mv_word` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_ld_word` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_mv_i16` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_ld_i16` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_mv_u32` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_ld_u32` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_mv_i32` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_ld_i32` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_mv_f32` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_ld_f32` - **<span style="color:#64DD17">OK</span>**
+- `mdbus_mv_word` - ✅
+- `mdbus_ld_word` - ✅
+- `mdbus_mv_i16` - ✅
+- `mdbus_ld_i16` - ✅
+- `mdbus_mv_u32` - ✅
+- `mdbus_ld_u32` - ✅
+- `mdbus_mv_i32` - ✅
+- `mdbus_ld_i32` - ✅
+- `mdbus_mv_f32` - ✅
+- `mdbus_ld_f32` - ✅
 
 #### ModBus Codecs
-- `mdbus_encode_read_holding_regs` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_encode_read_input_regs` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_encode_write_regs` - **<span style="color:#64DD17">OK</span>**
+- `mdbus_encode_read_holding_regs` - ✅
+- `mdbus_encode_read_input_regs` - ✅
+- `mdbus_encode_write_regs` - ✅
 
 #### ModBus Utils
-- `mdbus_rtu_crc` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_u32_words` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_i32_words` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_f32_words` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_set_tx_buffer` - **<span style="color:#64DD17">OK</span>**
-- `mdbus_transmit` - **<span style="color:#64DD17">OK</span>**
-- `set_bit` - **<span style="color:#64DD17">OK</span>**
-- `clear_bit` - **<span style="color:#64DD17">OK</span>**
-- `toggle_bit` - **<span style="color:#64DD17">OK</span>**
-- `check_bit` - **<span style="color:#64DD17">OK</span>**
+- `mdbus_rtu_crc` - ✅
+- `mdbus_u32_words` - ✅
+- `mdbus_i32_words` - ✅
+- `mdbus_f32_words` - ✅
+- `mdbus_set_tx_buffer` - ✅
+- `mdbus_transmit` - ✅
+- `set_bit` - ✅
+- `clear_bit` - ✅
+- `toggle_bit` - ✅
+- `check_bit` - ✅
 
 #### ModBus Request Handler
-- `mdbus_handle_request` - **<span style="color:#64DD17">OK</span>**
+- `mdbus_handle_request` - ✅
 
 ## Testing - Docs - TODO
