@@ -1,7 +1,7 @@
-r"""Wrapper for libzcom.h
+r"""Wrapper for libzcom_mdbus.h
 
 Generated with:
-/home/eslam/work/LabTronic/libzcom/.venv/bin/ctypesgen -l libzcom.so ./inc/libzcom.h -o libzcom_ffi.py
+/home/eslam/work/LabTronic/libzcom/.venv/bin/ctypesgen -l libzcom_mdbus.so ./inc/libzcom_mdbus.h -o test/libzcom_mdbus_ffi.py
 
 Do not modify this file.
 """
@@ -860,7 +860,7 @@ del loaderclass
 add_library_search_dirs([])
 
 # Begin libraries
-_libs["libzcom.so"] = load_library("libzcom.so")
+_libs["libzcom_mdbus.so"] = load_library("libzcom_mdbus.so")
 
 # 1 libraries
 # End libraries
@@ -871,320 +871,233 @@ __uint8_t = c_ubyte# /usr/include/x86_64-linux-gnu/bits/types.h: 38
 
 __uint16_t = c_ushort# /usr/include/x86_64-linux-gnu/bits/types.h: 40
 
+__uint32_t = c_uint# /usr/include/x86_64-linux-gnu/bits/types.h: 42
+
 uint8_t = __uint8_t# /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h: 24
 
 uint16_t = __uint16_t# /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h: 25
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 80
-class struct_anon_2(Structure):
-    pass
+uint32_t = __uint32_t# /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h: 26
 
-struct_anon_2.__slots__ = [
-    'register_address',
-    'register_size',
-    'register_ptr',
-]
-struct_anon_2._fields_ = [
-    ('register_address', uint16_t),
-    ('register_size', uint16_t),
-    ('register_ptr', POINTER(uint8_t)),
-]
-
-DeviceRegisterConfig = struct_anon_2# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 80
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 82
-if _libs["libzcom.so"].has("set_bit", "cdecl"):
-    set_bit = _libs["libzcom.so"].get("set_bit", "cdecl")
-    set_bit.argtypes = [uint16_t, uint8_t]
-    set_bit.restype = uint16_t
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 83
-if _libs["libzcom.so"].has("clear_bit", "cdecl"):
-    clear_bit = _libs["libzcom.so"].get("clear_bit", "cdecl")
-    clear_bit.argtypes = [uint16_t, uint8_t]
-    clear_bit.restype = uint16_t
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 84
-if _libs["libzcom.so"].has("toggle_bit", "cdecl"):
-    toggle_bit = _libs["libzcom.so"].get("toggle_bit", "cdecl")
-    toggle_bit.argtypes = [uint16_t, uint8_t]
-    toggle_bit.restype = uint16_t
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 85
-if _libs["libzcom.so"].has("check_bit", "cdecl"):
-    check_bit = _libs["libzcom.so"].get("check_bit", "cdecl")
-    check_bit.argtypes = [uint16_t, uint8_t]
-    check_bit.restype = uint16_t
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 86
-if _libs["libzcom.so"].has("set_vm_buffer", "cdecl"):
-    set_vm_buffer = _libs["libzcom.so"].get("set_vm_buffer", "cdecl")
-    set_vm_buffer.argtypes = [POINTER(uint8_t)]
-    set_vm_buffer.restype = None
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 88
-if _libs["libzcom.so"].has("mdbus_set_slave_id", "cdecl"):
-    mdbus_set_slave_id = _libs["libzcom.so"].get("mdbus_set_slave_id", "cdecl")
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 20
+if _libs["libzcom_mdbus.so"].has("mdbus_set_slave_id", "cdecl"):
+    mdbus_set_slave_id = _libs["libzcom_mdbus.so"].get("mdbus_set_slave_id", "cdecl")
     mdbus_set_slave_id.argtypes = [uint8_t]
     mdbus_set_slave_id.restype = uint8_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 89
-if _libs["libzcom.so"].has("mdbus_set_page", "cdecl"):
-    mdbus_set_page = _libs["libzcom.so"].get("mdbus_set_page", "cdecl")
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 21
+if _libs["libzcom_mdbus.so"].has("mdbus_set_page", "cdecl"):
+    mdbus_set_page = _libs["libzcom_mdbus.so"].get("mdbus_set_page", "cdecl")
     mdbus_set_page.argtypes = [uint8_t, POINTER(uint16_t)]
     mdbus_set_page.restype = uint8_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 90
-if _libs["libzcom.so"].has("mdbus_read_holding_regs_request", "cdecl"):
-    mdbus_read_holding_regs_request = _libs["libzcom.so"].get("mdbus_read_holding_regs_request", "cdecl")
-    mdbus_read_holding_regs_request.argtypes = [uint16_t, uint16_t, POINTER(uint8_t)]
-    mdbus_read_holding_regs_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 22
+if _libs["libzcom_mdbus.so"].has("mdbus_get_page", "cdecl"):
+    mdbus_get_page = _libs["libzcom_mdbus.so"].get("mdbus_get_page", "cdecl")
+    mdbus_get_page.argtypes = [uint16_t, POINTER(POINTER(uint16_t))]
+    mdbus_get_page.restype = uint8_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 91
-if _libs["libzcom.so"].has("mdbus_read_input_regs_request", "cdecl"):
-    mdbus_read_input_regs_request = _libs["libzcom.so"].get("mdbus_read_input_regs_request", "cdecl")
-    mdbus_read_input_regs_request.argtypes = [uint16_t, uint16_t, POINTER(uint8_t)]
-    mdbus_read_input_regs_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 25
+if _libs["libzcom_mdbus.so"].has("mdbus_mv_word", "cdecl"):
+    mdbus_mv_word = _libs["libzcom_mdbus.so"].get("mdbus_mv_word", "cdecl")
+    mdbus_mv_word.argtypes = [uint16_t, uint16_t]
+    mdbus_mv_word.restype = uint8_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 92
-if _libs["libzcom.so"].has("mdbus_write_holding_regs_request", "cdecl"):
-    mdbus_write_holding_regs_request = _libs["libzcom.so"].get("mdbus_write_holding_regs_request", "cdecl")
-    mdbus_write_holding_regs_request.argtypes = [uint16_t, POINTER(uint16_t), uint16_t, POINTER(uint8_t)]
-    mdbus_write_holding_regs_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 26
+if _libs["libzcom_mdbus.so"].has("mdbus_ld_word", "cdecl"):
+    mdbus_ld_word = _libs["libzcom_mdbus.so"].get("mdbus_ld_word", "cdecl")
+    mdbus_ld_word.argtypes = [uint16_t, POINTER(uint16_t)]
+    mdbus_ld_word.restype = uint8_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 93
-if _libs["libzcom.so"].has("mdbus_handle_request", "cdecl"):
-    mdbus_handle_request = _libs["libzcom.so"].get("mdbus_handle_request", "cdecl")
-    mdbus_handle_request.argtypes = [POINTER(uint8_t), uint16_t]
-    mdbus_handle_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 27
+if _libs["libzcom_mdbus.so"].has("mdbus_mv_i16", "cdecl"):
+    mdbus_mv_i16 = _libs["libzcom_mdbus.so"].get("mdbus_mv_i16", "cdecl")
+    mdbus_mv_i16.argtypes = [uint16_t, c_int16]
+    mdbus_mv_i16.restype = uint8_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 94
-if _libs["libzcom.so"].has("mdbus_rtu_crc", "cdecl"):
-    mdbus_rtu_crc = _libs["libzcom.so"].get("mdbus_rtu_crc", "cdecl")
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 28
+if _libs["libzcom_mdbus.so"].has("mdbus_ld_i16", "cdecl"):
+    mdbus_ld_i16 = _libs["libzcom_mdbus.so"].get("mdbus_ld_i16", "cdecl")
+    mdbus_ld_i16.argtypes = [uint16_t, POINTER(c_int16)]
+    mdbus_ld_i16.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 29
+if _libs["libzcom_mdbus.so"].has("mdbus_mv_u32", "cdecl"):
+    mdbus_mv_u32 = _libs["libzcom_mdbus.so"].get("mdbus_mv_u32", "cdecl")
+    mdbus_mv_u32.argtypes = [uint16_t, uint32_t]
+    mdbus_mv_u32.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 30
+if _libs["libzcom_mdbus.so"].has("mdbus_ld_u32", "cdecl"):
+    mdbus_ld_u32 = _libs["libzcom_mdbus.so"].get("mdbus_ld_u32", "cdecl")
+    mdbus_ld_u32.argtypes = [uint16_t, POINTER(uint32_t)]
+    mdbus_ld_u32.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 31
+if _libs["libzcom_mdbus.so"].has("mdbus_mv_i32", "cdecl"):
+    mdbus_mv_i32 = _libs["libzcom_mdbus.so"].get("mdbus_mv_i32", "cdecl")
+    mdbus_mv_i32.argtypes = [uint16_t, c_int32]
+    mdbus_mv_i32.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 32
+if _libs["libzcom_mdbus.so"].has("mdbus_ld_i32", "cdecl"):
+    mdbus_ld_i32 = _libs["libzcom_mdbus.so"].get("mdbus_ld_i32", "cdecl")
+    mdbus_ld_i32.argtypes = [uint16_t, POINTER(c_int32)]
+    mdbus_ld_i32.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 33
+if _libs["libzcom_mdbus.so"].has("mdbus_mv_f32", "cdecl"):
+    mdbus_mv_f32 = _libs["libzcom_mdbus.so"].get("mdbus_mv_f32", "cdecl")
+    mdbus_mv_f32.argtypes = [uint16_t, c_float]
+    mdbus_mv_f32.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 34
+if _libs["libzcom_mdbus.so"].has("mdbus_ld_f32", "cdecl"):
+    mdbus_ld_f32 = _libs["libzcom_mdbus.so"].get("mdbus_ld_f32", "cdecl")
+    mdbus_ld_f32.argtypes = [uint16_t, POINTER(c_float)]
+    mdbus_ld_f32.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 37
+if _libs["libzcom_mdbus.so"].has("mdbus_encode_read_holding_regs", "cdecl"):
+    mdbus_encode_read_holding_regs = _libs["libzcom_mdbus.so"].get("mdbus_encode_read_holding_regs", "cdecl")
+    mdbus_encode_read_holding_regs.argtypes = [uint16_t, uint16_t, POINTER(uint8_t)]
+    mdbus_encode_read_holding_regs.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 38
+if _libs["libzcom_mdbus.so"].has("mdbus_encode_read_input_regs", "cdecl"):
+    mdbus_encode_read_input_regs = _libs["libzcom_mdbus.so"].get("mdbus_encode_read_input_regs", "cdecl")
+    mdbus_encode_read_input_regs.argtypes = [uint16_t, uint16_t, POINTER(uint8_t)]
+    mdbus_encode_read_input_regs.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 39
+if _libs["libzcom_mdbus.so"].has("mdbus_encode_write_regs", "cdecl"):
+    mdbus_encode_write_regs = _libs["libzcom_mdbus.so"].get("mdbus_encode_write_regs", "cdecl")
+    mdbus_encode_write_regs.argtypes = [uint16_t, POINTER(uint16_t), uint16_t, POINTER(uint8_t)]
+    mdbus_encode_write_regs.restype = uint8_t
+
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 42
+if _libs["libzcom_mdbus.so"].has("mdbus_rtu_crc", "cdecl"):
+    mdbus_rtu_crc = _libs["libzcom_mdbus.so"].get("mdbus_rtu_crc", "cdecl")
     mdbus_rtu_crc.argtypes = [POINTER(uint8_t), uint16_t]
     mdbus_rtu_crc.restype = uint16_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 96
-if _libs["libzcom.so"].has("ltbus_init_device", "cdecl"):
-    ltbus_init_device = _libs["libzcom.so"].get("ltbus_init_device", "cdecl")
-    ltbus_init_device.argtypes = [uint8_t, POINTER(uint8_t), POINTER(uint8_t)]
-    ltbus_init_device.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 43
+if _libs["libzcom_mdbus.so"].has("mdbus_u32_words", "cdecl"):
+    mdbus_u32_words = _libs["libzcom_mdbus.so"].get("mdbus_u32_words", "cdecl")
+    mdbus_u32_words.argtypes = [uint32_t, POINTER(uint16_t)]
+    mdbus_u32_words.restype = None
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 97
-if _libs["libzcom.so"].has("ltbus_decode_device_register_config", "cdecl"):
-    ltbus_decode_device_register_config = _libs["libzcom.so"].get("ltbus_decode_device_register_config", "cdecl")
-    ltbus_decode_device_register_config.argtypes = [POINTER(uint8_t), POINTER(DeviceRegisterConfig)]
-    ltbus_decode_device_register_config.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 44
+if _libs["libzcom_mdbus.so"].has("mdbus_i32_words", "cdecl"):
+    mdbus_i32_words = _libs["libzcom_mdbus.so"].get("mdbus_i32_words", "cdecl")
+    mdbus_i32_words.argtypes = [c_int32, POINTER(uint16_t)]
+    mdbus_i32_words.restype = None
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 98
-if _libs["libzcom.so"].has("ltbus_read_request", "cdecl"):
-    ltbus_read_request = _libs["libzcom.so"].get("ltbus_read_request", "cdecl")
-    ltbus_read_request.argtypes = [uint16_t, uint16_t, POINTER(uint8_t)]
-    ltbus_read_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 45
+if _libs["libzcom_mdbus.so"].has("mdbus_f32_words", "cdecl"):
+    mdbus_f32_words = _libs["libzcom_mdbus.so"].get("mdbus_f32_words", "cdecl")
+    mdbus_f32_words.argtypes = [c_float, POINTER(uint16_t)]
+    mdbus_f32_words.restype = None
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 99
-if _libs["libzcom.so"].has("ltbus_write_f32_request", "cdecl"):
-    ltbus_write_f32_request = _libs["libzcom.so"].get("ltbus_write_f32_request", "cdecl")
-    ltbus_write_f32_request.argtypes = [uint16_t, c_float, POINTER(uint8_t)]
-    ltbus_write_f32_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 46
+if _libs["libzcom_mdbus.so"].has("mdbus_set_tx_buffer", "cdecl"):
+    mdbus_set_tx_buffer = _libs["libzcom_mdbus.so"].get("mdbus_set_tx_buffer", "cdecl")
+    mdbus_set_tx_buffer.argtypes = [POINTER(uint8_t)]
+    mdbus_set_tx_buffer.restype = None
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 100
-if _libs["libzcom.so"].has("ltbus_write_u16_request", "cdecl"):
-    ltbus_write_u16_request = _libs["libzcom.so"].get("ltbus_write_u16_request", "cdecl")
-    ltbus_write_u16_request.argtypes = [uint16_t, uint16_t, POINTER(uint8_t)]
-    ltbus_write_u16_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 47
+if _libs["libzcom_mdbus.so"].has("mdbus_transmit", "cdecl"):
+    mdbus_transmit = _libs["libzcom_mdbus.so"].get("mdbus_transmit", "cdecl")
+    mdbus_transmit.argtypes = [POINTER(uint8_t), uint8_t]
+    mdbus_transmit.restype = None
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 101
-if _libs["libzcom.so"].has("ltbus_write_i16_request", "cdecl"):
-    ltbus_write_i16_request = _libs["libzcom.so"].get("ltbus_write_i16_request", "cdecl")
-    ltbus_write_i16_request.argtypes = [uint16_t, c_int16, POINTER(uint8_t)]
-    ltbus_write_i16_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 48
+if _libs["libzcom_mdbus.so"].has("set_bit", "cdecl"):
+    set_bit = _libs["libzcom_mdbus.so"].get("set_bit", "cdecl")
+    set_bit.argtypes = [uint16_t, uint8_t]
+    set_bit.restype = uint16_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 102
-if _libs["libzcom.so"].has("ltbus_handle_request", "cdecl"):
-    ltbus_handle_request = _libs["libzcom.so"].get("ltbus_handle_request", "cdecl")
-    ltbus_handle_request.argtypes = [POINTER(uint8_t), uint16_t]
-    ltbus_handle_request.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 49
+if _libs["libzcom_mdbus.so"].has("clear_bit", "cdecl"):
+    clear_bit = _libs["libzcom_mdbus.so"].get("clear_bit", "cdecl")
+    clear_bit.argtypes = [uint16_t, uint8_t]
+    clear_bit.restype = uint16_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 103
-if _libs["libzcom.so"].has("ltbus_send_mmap", "cdecl"):
-    ltbus_send_mmap = _libs["libzcom.so"].get("ltbus_send_mmap", "cdecl")
-    ltbus_send_mmap.argtypes = [uint16_t]
-    ltbus_send_mmap.restype = uint8_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 50
+if _libs["libzcom_mdbus.so"].has("toggle_bit", "cdecl"):
+    toggle_bit = _libs["libzcom_mdbus.so"].get("toggle_bit", "cdecl")
+    toggle_bit.argtypes = [uint16_t, uint8_t]
+    toggle_bit.restype = uint16_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 104
-if _libs["libzcom.so"].has("ltbus_crc", "cdecl"):
-    ltbus_crc = _libs["libzcom.so"].get("ltbus_crc", "cdecl")
-    ltbus_crc.argtypes = [POINTER(uint8_t), uint16_t]
-    ltbus_crc.restype = uint16_t
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 51
+if _libs["libzcom_mdbus.so"].has("check_bit", "cdecl"):
+    check_bit = _libs["libzcom_mdbus.so"].get("check_bit", "cdecl")
+    check_bit.argtypes = [uint16_t, uint8_t]
+    check_bit.restype = uint16_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 7
-try:
-    LTBUS_FC_READ = 0xAA
-except:
-    pass
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 54
+if _libs["libzcom_mdbus.so"].has("mdbus_handle_request", "cdecl"):
+    mdbus_handle_request = _libs["libzcom_mdbus.so"].get("mdbus_handle_request", "cdecl")
+    mdbus_handle_request.argtypes = [POINTER(uint8_t), uint16_t]
+    mdbus_handle_request.restype = uint8_t
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 8
-try:
-    LTBUS_FC_READ_RESP = 0xAB
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 9
-try:
-    LTBUS_FC_WRITE = 0xEA
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 10
-try:
-    LTBUS_FC_WRITE_ACK = 0xEB
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 11
-try:
-    LTBUS_FC_WRITE_ACK_RESP = 0xEC
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 12
-try:
-    LTBUS_PACKET_HEADER_SIZE = 7
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 13
-try:
-    LTBUS_PACKET_FOOTER_SIZE = 3
-except:
-    pass
-
-LTBUS_RC = uint8_t# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 14
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 15
-try:
-    LTBUS_RC_OK = 0x00
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 16
-try:
-    LTBUS_RC_ERR_PKT_TOO_SMALL = 0x01
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 17
-try:
-    LTBUS_RC_ERR_INV_CRC16 = 0x02
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 18
-try:
-    LTBUS_RC_ERR_SLV_ID_MISMATCH = 0x03
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 19
-try:
-    LTBUS_RC_ERR_UNK_FC = 0x04
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 20
-try:
-    LTBUS_RC_ERR_UNK_DEVICE_BUFFER = 0x05
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 21
-try:
-    LTBUS_RC_ERR_OUT_OF_BOUND_READ = 0x06
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 22
-try:
-    LTBUS_MMAP_MAX = 1024
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 23
-try:
-    LTBUS_MAX_TEMP_BUFFER = 256
-except:
-    pass
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 25
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 7
 try:
     MDBUS_FC_READ_HOLDING_REGS = 0x03
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 26
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 8
 try:
     MDBUS_FC_READ_INPUT_REGS = 0x04
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 27
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 9
 try:
-    MDBUS_FC_WRITE_HOLDING_REGS = 0x10
+    MDBUS_FC_WRITE_REGS = 0x10
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 28
-try:
-    MDBUS_PACKET_HEADER_SIZE = 6
-except:
-    pass
+MDBUS_RC = uint8_t# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 10
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 29
-try:
-    MDBUS_PACKET_FOOTER_SIZE = 2
-except:
-    pass
-
-MDBUS_RC = uint8_t# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 30
-
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 31
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 11
 try:
     MDBUS_RC_OK = 0x10
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 32
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 12
 try:
     MDBUS_RC_ERR_PKT_TOO_SMALL = 0x11
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 33
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 13
 try:
     MDBUS_RC_ERR_INV_CRC16 = 0x12
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 34
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 14
 try:
     MDBUS_RC_ERR_SLV_ID_MISMATCH = 0x13
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 35
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 15
 try:
     MDBUS_RC_ERR_UNK_FC = 0x14
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 36
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 16
 try:
     MDBUS_RC_INV_PAGE_OFFSET = 0x15
 except:
     pass
 
-# /home/eslam/work/LabTronic/libzcom/inc/libzcom.h: 37
+# /home/eslam/work/LabTronic/libzcom/inc/libzcom_mdbus.h: 17
 try:
     MDBUS_RC_PAGE_NOT_FOUND = 0x16
 except:

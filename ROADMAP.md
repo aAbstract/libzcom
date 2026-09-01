@@ -1,0 +1,35 @@
+# Roadmap
+
+### 170826 - Standard ModBus API
+- [x] ModBus Virtual Memory System
+    - [x] `mdbus_set_slave_id`
+    - [x] `mdbus_set_page`
+    - [x] `mdbus_get_page`
+- [x] ModBus Source Operations
+    - [x] `mdbus_mv_word`
+    - [x] `mdbus_ld_word`
+    - [x] `mdbus_mv_i16`
+    - [x] `mdbus_ld_i16`
+    - [x] `mdbus_mv_u32`
+    - [x] `mdbus_ld_u32`
+    - [x] `mdbus_mv_i32`
+    - [x] `mdbus_ld_i32`
+    - [x] `mdbus_mv_f32`
+    - [x] `mdbus_ld_f32`
+- [x] ModBus Codecs
+    - [x] `mdbus_encode_read_holding_regs`
+    - [x] `mdbus_encode_read_input_regs`
+    - [x] `mdbus_encode_write_regs`
+- [x] ModBus Utils
+    - [x] `mdbus_rtu_crc`
+    - [x] `mdbus_u32_words`
+    - [x] `mdbus_i32_words`
+    - [x] `mdbus_f32_words`
+    - [x] `mdbus_set_tx_buffer`
+    - [x] `mdbus_transmit`
+    - [x] `set_bit`
+    - [x] `clear_bit`
+    - [x] `toggle_bit`
+    - [x] `check_bit`
+- [x] ModBus Request Handler
+    - [x] `mdbus_handle_request`

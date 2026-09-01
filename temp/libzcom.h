@@ -79,19 +79,33 @@ typedef struct {
     uint8_t* register_ptr;
 } DeviceRegisterConfig;
 
+// modbus-virtual-memory
+MDBUS_RC mdbus_set_page(uint8_t page_offset, uint16_t* page_ptr);
+MDBUS_RC mdbus_get_page(uint16_t address, uint16_t** out_page_ptr);
+// mdbus-source-ops
+MDBUS_RC mdbus_mv_word(uint16_t address, uint16_t word);
+MDBUS_RC mdbus_ld_word(uint16_t address, uint16_t* out_word);
+MDBUS_RC mdbus_mv_i16(uint16_t address, int16_t value);
+MDBUS_RC mdbus_ld_i16(uint16_t address, int16_t* out_value);
+MDBUS_RC mdbus_mv_u32(uint16_t address, uint32_t value);
+MDBUS_RC mdbus_ld_u32(uint16_t address, uint32_t* out_value);
+MDBUS_RC mdbus_mv_i32(uint16_t address, int32_t value);
+MDBUS_RC mdbus_ld_i32(uint16_t address, int32_t* out_value);
+MDBUS_RC mdbus_mv_f32(uint16_t address, float value);
+MDBUS_RC mdbus_ld_f32(uint16_t address, float* out_value);
+// mdbus-codecs
+MDBUS_RC mdbus_read_holding_regs_request(uint16_t offset, uint16_t word_cnt, uint8_t* out_packet);
+MDBUS_RC mdbus_read_input_regs_request(uint16_t offset, uint16_t word_cnt, uint8_t* out_packet);
+MDBUS_RC mdbus_write_holding_regs_request(uint16_t offset, uint16_t* word_list, uint16_t word_cnt, uint8_t* out_packet);
+// mdbus-request-handler
+MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);
+// mdbus-utils
+MDBUS_RC mdbus_set_slave_id(uint8_t _slave_id);
+uint16_t mdbus_rtu_crc(const uint8_t* data, uint16_t len);
 uint16_t set_bit(uint16_t x, uint8_t pos);
 uint16_t clear_bit(uint16_t x, uint8_t pos);
 uint16_t toggle_bit(uint16_t x, uint8_t pos);
 uint16_t check_bit(uint16_t x, uint8_t pos);
-void set_vm_buffer(uint8_t* _vm_buffer);
-
-MDBUS_RC mdbus_set_slave_id(uint8_t _slave_id);
-MDBUS_RC mdbus_set_page(uint8_t page_offset, uint16_t* page_ptr);
-MDBUS_RC mdbus_read_holding_regs_request(uint16_t offset, uint16_t word_cnt, uint8_t* out_packet);
-MDBUS_RC mdbus_read_input_regs_request(uint16_t offset, uint16_t word_cnt, uint8_t* out_packet);
-MDBUS_RC mdbus_write_holding_regs_request(uint16_t offset, uint16_t* word_list, uint16_t word_cnt, uint8_t* out_packet);
-MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);
-uint16_t mdbus_rtu_crc(const uint8_t* data, uint16_t len);
 
 LTBUS_RC ltbus_init_device(uint8_t _slave_id, uint8_t* _config_buffer, uint8_t* _data_buffer);
 LTBUS_RC ltbus_decode_device_register_config(const uint8_t* request_packet, DeviceRegisterConfig* out_conf);

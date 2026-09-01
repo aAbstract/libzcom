@@ -40,6 +40,154 @@ MDBUS_RC mdbus_set_page(uint8_t page_offset, uint16_t* page_ptr) {
     mdbus_page_table[page_offset] = page_ptr;
     return MDBUS_RC_OK;
 }
+MDBUS_RC mdbus_get_page(uint16_t address, uint16_t** out_page_ptr) {
+    uint8_t page_offset = (address >> 12) & 0x000F;
+    uint16_t* page_ptr = mdbus_page_table[page_offset];
+    if (page_ptr == 0)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    *out_page_ptr = page_ptr;
+    return MDBUS_RC_OK;
+}
+
+MDBUS_RC mdbus_mv_word(uint16_t address, uint16_t word) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t word_offset = address & 0x0FFF;
+    page_ptr[word_offset] = word;
+    return MDBUS_RC_OK;
+}
+MDBUS_RC mdbus_ld_word(uint16_t address, uint16_t* out_word) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t word_offset = address & 0x0FFF;
+    *out_word = page_ptr[word_offset];
+    return MDBUS_RC_OK;
+}
+
+MDBUS_RC mdbus_mv_i16(uint16_t address, int16_t value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t word_offset = address & 0x0FFF;
+    page_ptr[word_offset] = (uint16_t)value;
+    return MDBUS_RC_OK;
+}
+MDBUS_RC mdbus_ld_i16(uint16_t address, int16_t* out_value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t word_offset = address & 0x0FFF;
+    *out_value = (int16_t)page_ptr[word_offset];
+    return MDBUS_RC_OK;
+}
+
+MDBUS_RC mdbus_mv_u32(uint16_t address, uint32_t value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t low_word = 0;
+    uint16_t high_word = 0;
+    ((uint8_t*)&low_word)[0] = (uint8_t)(value & 0xFF);
+    ((uint8_t*)&low_word)[1] = (uint8_t)((value >> 8) & 0xFF);
+    ((uint8_t*)&high_word)[0] = (uint8_t)((value >> 16) & 0xFF);
+    ((uint8_t*)&high_word)[1] = (uint8_t)((value >> 24) & 0xFF);
+
+    uint16_t word_offset = address & 0x0FFF;
+    page_ptr[word_offset] = low_word;
+    page_ptr[word_offset + 1] = high_word;
+    return MDBUS_RC_OK;
+}
+MDBUS_RC mdbus_ld_u32(uint16_t address, uint32_t* out_value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t word_offset = address & 0x0FFF;
+    uint16_t low_word = page_ptr[word_offset];
+    uint16_t high_word = page_ptr[word_offset + 1];
+    uint8_t* out_value_ptr = (uint8_t*)out_value;
+    out_value_ptr[0] = low_word & 0xFF;
+    out_value_ptr[1] = (low_word >> 8) & 0xFF;
+    out_value_ptr[2] = high_word & 0xFF;
+    out_value_ptr[3] = (high_word >> 8) & 0xFF;
+    return MDBUS_RC_OK;
+}
+
+MDBUS_RC mdbus_mv_i32(uint16_t address, int32_t value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t low_word = 0;
+    uint16_t high_word = 0;
+    uint32_t value_u32 = *(uint32_t*)&value;
+    ((uint8_t*)&low_word)[0] = (uint8_t)(value_u32 & 0xFF);
+    ((uint8_t*)&low_word)[1] = (uint8_t)((value_u32 >> 8) & 0xFF);
+    ((uint8_t*)&high_word)[0] = (uint8_t)((value_u32 >> 16) & 0xFF);
+    ((uint8_t*)&high_word)[1] = (uint8_t)((value_u32 >> 24) & 0xFF);
+
+    uint16_t word_offset = address & 0x0FFF;
+    page_ptr[word_offset] = low_word;
+    page_ptr[word_offset + 1] = high_word;
+    return MDBUS_RC_OK;
+}
+MDBUS_RC mdbus_ld_i32(uint16_t address, int32_t* out_value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t word_offset = address & 0x0FFF;
+    uint16_t low_word = page_ptr[word_offset];
+    uint16_t high_word = page_ptr[word_offset + 1];
+    uint8_t* out_value_ptr = (uint8_t*)out_value;
+    out_value_ptr[0] = low_word & 0xFF;
+    out_value_ptr[1] = (low_word >> 8) & 0xFF;
+    out_value_ptr[2] = high_word & 0xFF;
+    out_value_ptr[3] = (high_word >> 8) & 0xFF;
+    return MDBUS_RC_OK;
+}
+
+MDBUS_RC mdbus_mv_f32(uint16_t address, float value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t low_word = 0;
+    uint16_t high_word = 0;
+    uint32_t value_u32 = *(uint32_t*)&value;
+    ((uint8_t*)&low_word)[0] = (uint8_t)(value_u32 & 0xFF);
+    ((uint8_t*)&low_word)[1] = (uint8_t)((value_u32 >> 8) & 0xFF);
+    ((uint8_t*)&high_word)[0] = (uint8_t)((value_u32 >> 16) & 0xFF);
+    ((uint8_t*)&high_word)[1] = (uint8_t)((value_u32 >> 24) & 0xFF);
+
+    uint16_t word_offset = address & 0x0FFF;
+    page_ptr[word_offset] = low_word;
+    page_ptr[word_offset + 1] = high_word;
+    return MDBUS_RC_OK;
+}
+MDBUS_RC mdbus_ld_f32(uint16_t address, float* out_value) {
+    uint16_t* page_ptr;
+    if (mdbus_get_page(address, &page_ptr) != MDBUS_RC_OK)
+        return MDBUS_RC_PAGE_NOT_FOUND;
+
+    uint16_t word_offset = address & 0x0FFF;
+    uint16_t low_word = page_ptr[word_offset];
+    uint16_t high_word = page_ptr[word_offset + 1];
+    uint8_t* out_value_ptr = (uint8_t*)out_value;
+    out_value_ptr[0] = low_word & 0xFF;
+    out_value_ptr[1] = (low_word >> 8) & 0xFF;
+    out_value_ptr[2] = high_word & 0xFF;
+    out_value_ptr[3] = (high_word >> 8) & 0xFF;
+    return MDBUS_RC_OK;
+}
 
 MDBUS_RC mdbus_read_holding_regs_request(uint16_t offset, uint16_t word_cnt, uint8_t* out_packet) {
     out_packet[0] = mdbus_slave_id;
@@ -52,8 +200,8 @@ MDBUS_RC mdbus_read_holding_regs_request(uint16_t offset, uint16_t word_cnt, uin
     out_packet[5] = word_cnt & 0xFF;
 
     uint16_t crc16 = mdbus_rtu_crc(out_packet, 6);
-    out_packet[6] = (crc16 >> 8) & 0xFF;
-    out_packet[7] = crc16 & 0xFF;
+    out_packet[6] = crc16 & 0xFF;
+    out_packet[7] = (crc16 >> 8) & 0xFF;
 
     return MDBUS_RC_OK;
 }
@@ -69,8 +217,8 @@ MDBUS_RC mdbus_read_input_regs_request(uint16_t offset, uint16_t word_cnt, uint8
     out_packet[5] = word_cnt & 0xFF;
 
     uint16_t crc16 = mdbus_rtu_crc(out_packet, 6);
-    out_packet[6] = (crc16 >> 8) & 0xFF;
-    out_packet[7] = crc16 & 0xFF;
+    out_packet[6] = crc16 & 0xFF;
+    out_packet[7] = (crc16 >> 8) & 0xFF;
 
     return MDBUS_RC_OK;
 }
@@ -84,6 +232,7 @@ MDBUS_RC mdbus_write_holding_regs_request(uint16_t offset, uint16_t* word_list, 
 
     out_packet[4] = (word_cnt >> 8) & 0xFF;
     out_packet[5] = word_cnt & 0xFF;
+    out_packet[6] = word_cnt * 2;
 
     for (uint8_t i = 0; i < word_cnt; i++) {
         uint16_t word = word_list[i];
@@ -94,8 +243,8 @@ MDBUS_RC mdbus_write_holding_regs_request(uint16_t offset, uint16_t* word_list, 
 
     uint16_t packet_size = 6 + word_cnt * 2;
     uint16_t crc16 = mdbus_rtu_crc(out_packet, packet_size);
-    out_packet[packet_size] = (crc16 >> 8) & 0xFF;
-    out_packet[packet_size + 1] = crc16 & 0xFF;
+    out_packet[6] = crc16 & 0xFF;
+    out_packet[7] = (crc16 >> 8) & 0xFF;
 
     return MDBUS_RC_OK;
 }
@@ -122,8 +271,8 @@ MDBUS_RC mdbus_handle_write_request(const uint8_t* request_packet, uint8_t packe
     for (uint8_t i = 0; i < word_cnt; i++) {
         uint16_t word = 0xFFFF;
         uint16_t idx = 7 + 2 * i;
-        ((uint8_t*)&word_cnt)[1] = request_packet[idx];
-        ((uint8_t*)&word_cnt)[0] = request_packet[idx + 1];
+        ((uint8_t*)&word)[1] = request_packet[idx];
+        ((uint8_t*)&word)[0] = request_packet[idx + 1];
         page_ptr[page_offset + i] = word;
     }
 
@@ -172,6 +321,15 @@ uint16_t mdbus_rtu_crc(const uint8_t* data, uint16_t len) {
     }
 
     return crc;
+}
+
+uint8_t* mdbus_vm_buffer = 0;
+void set_mdbus_vm_buffer(uint8_t* vm_buffer) {
+    mdbus_vm_buffer = vm_buffer;
+}
+__attribute__((weak)) void mdbus_send(uint8_t* packet, uint8_t packet_size) {
+    if (mdbus_vm_buffer != 0)
+        memcpy(mdbus_vm_buffer, packet, packet_size);
 }
 
 uint8_t ltbus_slave_id = 0;

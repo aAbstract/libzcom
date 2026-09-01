@@ -1,7 +1,7 @@
 [project]
 name = "libzcom"
 version = "0.1.0"
-description = "Add your description here"
+description = "libzcom"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

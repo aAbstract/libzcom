@@ -1,4 +1,4 @@
 .pytest_cache
 **/__pycache__
 .venv
-libzcom.so
+*.so
