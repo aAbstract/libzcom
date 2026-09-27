@@ -1,5 +1,25 @@
 # Roadmap
 
+### 220926 - Standard LTBus API
+- [x] LTBus Virtual Memory System
+    - [x] `ltbus_set_slave_id`
+    - [x] `ltbus_set_page`
+    - [x] `ltbus_get_page`
+- [x] LTBus Source Operations - Native C
+- [x] LTBus Codecs
+    - [x] `ltbus_encode_read_regs`
+    - [x] `ltbus_encode_write_regs`
+- [x] LTBus Utils
+    - [x] `ltbus_crc`
+    - [x] `ltbus_set_tx_buffer`
+    - [x] `ltbus_transmit`
+    - [x] `libzcom_set_bit`
+    - [x] `libzcom_clear_bit`
+    - [x] `libzcom_toggle_bit`
+    - [x] `libzcom_check_bit`
+- [x] LTBus Request Handler
+    - [x] `ltbus_handle_request`
+
 ### 170826 - Standard ModBus API
 - [x] ModBus Virtual Memory System
     - [x] `mdbus_set_slave_id`
@@ -27,9 +47,9 @@
     - [x] `mdbus_f32_words`
     - [x] `mdbus_set_tx_buffer`
     - [x] `mdbus_transmit`
-    - [x] `set_bit`
-    - [x] `clear_bit`
-    - [x] `toggle_bit`
-    - [x] `check_bit`
+    - [x] `libzcom_set_bit`
+    - [x] `libzcom_clear_bit`
+    - [x] `libzcom_toggle_bit`
+    - [x] `libzcom_check_bit`
 - [x] ModBus Request Handler
     - [x] `mdbus_handle_request`

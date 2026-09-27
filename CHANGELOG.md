@@ -1,9 +1,28 @@
 # Changelog
 
-## [1.x.0] - xx0926 - [Unreleased]
+## [1.11.0] - 270926 - [Released]
 - Standardized LTBus API
 ```c
-// TODO
+// ltbus-virtual-memory
+LTBUS_RC ltbus_set_slave_id(uint8_t _slave_id);
+LTBUS_RC ltbus_set_page(uint8_t page_offset, uint8_t* page_ptr);
+LTBUS_RC ltbus_get_page(uint16_t address, uint8_t** out_page_ptr);
+
+// ltbus-codecs
+LTBUS_RC ltbus_encode_read_regs(uint16_t address, uint16_t size, uint8_t* out_packet);
+LTBUS_RC ltbus_encode_write_regs(uint16_t address, uint8_t* data_buffer, uint16_t data_size, uint8_t* out_packet);
+
+// ltbus-utils
+uint16_t ltbus_crc(const uint8_t* data, uint16_t len);
+void ltbus_set_tx_buffer(uint8_t* tx_buffer);
+void ltbus_transmit(uint8_t* packet, uint8_t packet_size);
+uint16_t libzcom_set_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_clear_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_toggle_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_check_bit(uint16_t x, uint8_t pos);
+
+// ltbus-request-handler
+LTBUS_RC ltbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);
 ```
 
 ## [1.1.0] - 010926 - [Released]
@@ -38,10 +57,10 @@ void mdbus_i32_words(int32_t value, uint16_t* out_words);
 void mdbus_f32_words(float value, uint16_t* out_words);
 void mdbus_set_tx_buffer(uint8_t* tx_buffer);
 void mdbus_transmit(uint8_t* packet, uint8_t packet_size);
-uint16_t set_bit(uint16_t x, uint8_t pos);
-uint16_t clear_bit(uint16_t x, uint8_t pos);
-uint16_t toggle_bit(uint16_t x, uint8_t pos);
-uint16_t check_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_set_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_clear_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_toggle_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_check_bit(uint16_t x, uint8_t pos);
 
 // mdbus-request-handler
 MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);

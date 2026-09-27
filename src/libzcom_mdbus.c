@@ -349,16 +349,3 @@ __attribute__((weak)) void mdbus_transmit(uint8_t* packet, uint8_t packet_size) 
     if (mdbus_tx_buffer != 0)
         memcpy(mdbus_tx_buffer, packet, packet_size);
 }
-
-uint16_t set_bit(uint16_t x, uint8_t pos) {
-    return x | (1 << pos);
-}
-uint16_t clear_bit(uint16_t x, uint8_t pos) {
-    return (x & ~(1 << pos));
-}
-uint16_t toggle_bit(uint16_t x, uint8_t pos) {
-    return x ^ (1 << pos);
-}
-uint16_t check_bit(uint16_t x, uint8_t pos) {
-    return (x & (1 << pos)) != 0;
-}

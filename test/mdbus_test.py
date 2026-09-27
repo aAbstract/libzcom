@@ -10,17 +10,17 @@ def test_bit_manipulation():
     libzcom = _libs[LIB_NAME]
 
     reg = 0b1101_1001
-    reg = libzcom.set_bit(reg, 1)
+    reg = libzcom.libzcom_set_bit(reg, 1)
     assert reg == 0b1101_1011
 
-    reg = libzcom.clear_bit(reg, 4)
+    reg = libzcom.libzcom_clear_bit(reg, 4)
     assert reg == 0b1100_1011
 
-    reg = libzcom.toggle_bit(reg, 3)
+    reg = libzcom.libzcom_toggle_bit(reg, 3)
     assert reg == 0b1100_0011
 
-    assert libzcom.check_bit(reg, 1) == 1
-    assert libzcom.check_bit(reg, 2) == 0
+    assert libzcom.libzcom_check_bit(reg, 1) == 1
+    assert libzcom.libzcom_check_bit(reg, 2) == 0
 
 
 def test_mdbus_set_get_page():
@@ -284,7 +284,8 @@ def test_mdbus_handle_request():
     assert bytes(mdbus_rreq) == target_packet
     mdbus_rreq_ptr = (ctypes.c_uint8 * len(mdbus_rreq)).from_buffer_copy(mdbus_rreq)
 
-    assert mdbus_tx_buffer[:21] == [0] * 21
+    tx_packet_size = 21
+    assert mdbus_tx_buffer[:tx_packet_size] == [0] * tx_packet_size
     libzcom.mdbus_handle_request(mdbus_rreq_ptr, len(mdbus_rreq))
 
     target_resp_packet = [
@@ -295,4 +296,4 @@ def test_mdbus_handle_request():
         0xC2, 0x8F, 0x42, 0x31,
         0x27, 0x11,
     ]
-    assert mdbus_tx_buffer[:21] == target_resp_packet
+    assert mdbus_tx_buffer[:tx_packet_size] == target_resp_packet

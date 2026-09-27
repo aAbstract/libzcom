@@ -45,10 +45,10 @@ void mdbus_i32_words(int32_t value, uint16_t* out_words);
 void mdbus_f32_words(float value, uint16_t* out_words);
 void mdbus_set_tx_buffer(uint8_t* tx_buffer);
 void mdbus_transmit(uint8_t* packet, uint8_t packet_size);
-uint16_t set_bit(uint16_t x, uint8_t pos);
-uint16_t clear_bit(uint16_t x, uint8_t pos);
-uint16_t toggle_bit(uint16_t x, uint8_t pos);
-uint16_t check_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_set_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_clear_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_toggle_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_check_bit(uint16_t x, uint8_t pos);
 
 // mdbus-request-handler
 MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);

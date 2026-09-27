@@ -13,7 +13,7 @@
                 "-m",
                 "pytest",
                 "--capture=no",
-                "test/mdbus_test.py::test_mdbus_handle_request"
+                "test/ltbus_test.py::test_ltbus_handle_write_request"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

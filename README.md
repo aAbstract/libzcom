@@ -4,8 +4,8 @@
 libzcom
 
 Author: Eslam Elsharkawy
-Version: 1.1.0
-Date: 2026-09-01
+Version: 1.11.0
+Date: 2026-09-27
 ```
 
 ## ModBus API Reference
@@ -39,16 +39,38 @@ void mdbus_i32_words(int32_t value, uint16_t* out_words);
 void mdbus_f32_words(float value, uint16_t* out_words);
 void mdbus_set_tx_buffer(uint8_t* tx_buffer);
 void mdbus_transmit(uint8_t* packet, uint8_t packet_size);
-uint16_t set_bit(uint16_t x, uint8_t pos);
-uint16_t clear_bit(uint16_t x, uint8_t pos);
-uint16_t toggle_bit(uint16_t x, uint8_t pos);
-uint16_t check_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_set_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_clear_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_toggle_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_check_bit(uint16_t x, uint8_t pos);
 
 // mdbus-request-handler
 MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);
 ```
 
-## LTBus API Reference - TODO
+## LTBus API Reference
+```c
+// ltbus-virtual-memory
+LTBUS_RC ltbus_set_slave_id(uint8_t _slave_id);
+LTBUS_RC ltbus_set_page(uint8_t page_offset, uint8_t* page_ptr);
+LTBUS_RC ltbus_get_page(uint16_t address, uint8_t** out_page_ptr);
+
+// ltbus-codecs
+LTBUS_RC ltbus_encode_read_regs(uint16_t address, uint16_t size, uint8_t* out_packet);
+LTBUS_RC ltbus_encode_write_regs(uint16_t address, uint8_t* data_buffer, uint16_t data_size, uint8_t* out_packet);
+
+// ltbus-utils
+uint16_t ltbus_crc(const uint8_t* data, uint16_t len);
+void ltbus_set_tx_buffer(uint8_t* tx_buffer);
+void ltbus_transmit(uint8_t* packet, uint8_t packet_size);
+uint16_t libzcom_set_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_clear_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_toggle_bit(uint16_t x, uint8_t pos);
+uint16_t libzcom_check_bit(uint16_t x, uint8_t pos);
+
+// ltbus-request-handler
+LTBUS_RC ltbus_handle_request(const uint8_t* request_packet, uint16_t packet_size);
+```
 
 ## Testing - Coverage
 
@@ -81,12 +103,37 @@ MDBUS_RC mdbus_handle_request(const uint8_t* request_packet, uint16_t packet_siz
 - `mdbus_f32_words` - ✅
 - `mdbus_set_tx_buffer` - ✅
 - `mdbus_transmit` - ✅
-- `set_bit` - ✅
-- `clear_bit` - ✅
-- `toggle_bit` - ✅
-- `check_bit` - ✅
+- `libzcom_set_bit` - ✅
+- `libzcom_clear_bit` - ✅
+- `libzcom_toggle_bit` - ✅
+- `libzcom_check_bit` - ✅
 
 #### ModBus Request Handler
 - `mdbus_handle_request` - ✅
+
+---
+
+#### LTBus Virtual Memory System
+- `ltbus_set_slave_id` - ✅
+- `ltbus_set_page` - ✅
+- `ltbus_get_page` - ✅
+
+#### LTBus Source Operations - Native C - ✅
+
+#### LTBus Codecs
+- `ltbus_encode_read_regs` - ✅
+- `ltbus_encode_write_regs` - ✅
+
+#### LTBus Utils
+- `ltbus_crc` - ✅
+- `ltbus_set_tx_buffer` - ✅
+- `ltbus_transmit` - ✅
+- `libzcom_set_bit` - ✅
+- `libzcom_clear_bit` - ✅
+- `libzcom_toggle_bit` - ✅
+- `libzcom_check_bit` - ✅
+
+#### LTBus Request Handler
+- `ltbus_handle_request` - ✅
 
 ## Testing - Docs - TODO
