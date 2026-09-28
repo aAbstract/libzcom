@@ -136,4 +136,161 @@ LTBUS_RC ltbus_handle_request(const uint8_t* request_packet, uint16_t packet_siz
 #### LTBus Request Handler
 - `ltbus_handle_request` - ✅
 
-## Testing - Docs - TODO
+## Testing - Docs
+`libzcom` uses a Python-driven testing methodology to verify its C implementation.  
+Tests are written using `pytest` and interact with the compiled C libraries through Python `ctypes`, 
+allowing C functions to be tested directly from Python.  
+The test suite covers individual functions and protocol-specific operations.  
+`GDB` is used alongside `pytest` when debugging C-level failures 
+such as segmentation faults and memory-access errors.
+
+#### Build Requirements
+```bash
+$ make all
+gcc -fPIC -Wall -O0 -g -shared src/libzcom_mdbus.c src/libzcom_common.c -Iinc -o libzcom_mdbus.so
+gcc -fPIC -Wall -O0 -g -shared src/libzcom_ltbus.c src/libzcom_common.c -Iinc -o libzcom_ltbus.so
+gcc -fPIC -Wall -O0 -g -shared src/libzcom_mdbus.c src/libzcom_ltbus.c src/libzcom_common.c -Iinc -o libzcom.so
+
+$ ls libzcom*.so
+libzcom_ltbus.so  libzcom_mdbus.so  libzcom.so
+```
+
+#### Setup Test Environment
+- Install python project manager [uv](https://docs.astral.sh/uv/)
+- Install test environment dependencies listed in file [pyproject.toml](./pyproject.toml)
+```bash
+$ uv sync
+Resolved 11 packages in 10ms
+Checked 9 packages in 1ms
+```
+
+#### Running the Tests
+- Run all Tests
+```bash
+$ uv run pytest
+test session starts
+platform linux -- Python 3.10.20, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/eslam/work/LabTronic/libzcom
+configfile: pyproject.toml
+collected 24 items 
+
+test/ltbus_test.py ........              [ 33%]
+test/mdbus_test.py ................      [100%]
+
+24 passed in 0.13s
+```
+
+- Run One Test File
+```bash
+$ uv run pytest test/mdbus_test.py
+test session starts
+platform linux -- Python 3.10.20, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/eslam/work/LabTronic/libzcom
+configfile: pyproject.toml
+collected 16 items
+
+test/mdbus_test.py ................     [100%]
+
+16 passed in 0.07s
+```
+
+- Run One Testcase
+```bash
+$ uv run pytest test/mdbus_test.py::test_mdbus_handle_request
+test session starts
+platform linux -- Python 3.10.20, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/eslam/work/LabTronic/libzcom
+configfile: pyproject.toml
+collected 1 item
+
+test/mdbus_test.py .
+
+1 passed in 0.07s
+```
+
+## Debugging Failed Tests
+
+#### Debugging Pytest Tests
+Pytest unit tests can be debugged using either the **VS Code Debugger** or Python's built-in **PDB Debugger**.
+
+##### VS Code PDB Integration
+VS Code can run pytest tests directly through its Python testing integration.  
+Tests can be started in debug mode by placing breakpoints in the test code 
+and selecting **Debug Test** from the test explorer or the inline debug option next to the test.  
+This allows you to pause execution, inspect variables, step through the Python test code, and investigate failures interactively.
+
+##### PDB CLI
+For command-line debugging, Python's built-in **PDB Debugger** can be used by adding a breakpoint to the test:
+
+```py
+# ...
+breakpoint()
+# ...
+```
+
+When pytest reaches this statement, execution pauses and an interactive **PDB** session is opened. Common commands include:
+
+```bash
+n       # execute the next line
+s       # step into a function
+c       # continue execution
+p var   # print a variable
+pp var  # pretty-print a variable
+q       # quit the debugger
+```
+
+Alternatively, `pytest` can be started with **PDB** enabled:
+
+```bash
+$ uv run pytest --pdb
+```
+
+With this option, `pytest` automatically enters the debugger when a test fails, allowing the failure to be inspected interactively.
+
+#### Debugging C Code
+The Python debugger only debugs the Python side of the test. It cannot step through or inspect the compiled C code called through `ctypes`.  
+When a test needs to be debugged at the C level, **GDB** should be used instead. 
+The libraries are compiled with debug information `-g`, allowing **GDB** to set breakpoints in the C source, 
+inspect variables, step through C functions, and investigate errors such as segmentation faults.  
+
+##### VS Code GDB Integration
+VS Code can also use its built-in **GDB** integration for **C/C++ Debugging**. 
+A debug configuration can launch the pytest process and attach **GDB** to it, allowing Python and the native C library to be debugged together.  
+Sample debug configuration can be found here [launch.json](.vscode/launch.json)
+
+```js
+"args": [
+    "-m",
+    "pytest",
+    "--capture=no",
+    "test/ltbus_test.py::test_ltbus_handle_write_request" // edit this to change target test to debug using GDB
+],
+```
+
+##### GDB CLI
+For command-line debugging, GDB can also be launched directly:
+```bash
+$ gdb --args python -m pytest --capture=no test/mdbus_test.py::test_mdbus_handle_request
+
+# start the test from the GDB prompt
+(gdb) run
+
+# useful commands include:
+(gdb) break function_name
+(gdb) next
+(gdb) step
+(gdb) print variable
+(gdb) backtrace
+(gdb) continue
+```
+
+For a breakpoint mechanism similar to Python `breakpoint()`, the following macro can be used in C code:
+```c
+#define GDB_TRIGGER                        \
+    printf("GDB Trigger: %d\n", getpid()); \
+    raise(SIGTRAP)
+```
+
+Place `GDB_TRIGGER;` at the point where execution should pause in the C source.  
+When the test is running under **GDB**, `SIGTRAP` causes the debugger to stop at that location, 
+allowing the C code to be inspected and stepped through.
